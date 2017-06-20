@@ -8,7 +8,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DM.Services.NetworkResourceMonitor
+namespace DM.Services.Configuration
 {
     public partial class Service1 : ServiceBase
     {

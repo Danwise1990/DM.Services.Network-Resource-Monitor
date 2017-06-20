@@ -1,4 +1,4 @@
-﻿namespace DM.Services.NetworkResourceMonitor
+﻿namespace DM.Services.Configuration
 {
     partial class Service1
     {
