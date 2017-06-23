@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Using
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+#endregion
 
 namespace DM.Services.NetworkResourceMonitor
 {
@@ -29,7 +31,7 @@ namespace DM.Services.NetworkResourceMonitor
 
         #region Properties
 
-        private Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache;
+        private BusinessLogic.Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache;
 
         #endregion
 
@@ -72,15 +74,14 @@ namespace DM.Services.NetworkResourceMonitor
             try
             {
                 // TODO: Add code here to start your service.
-
-                ServiceConfigurationCache = new Configuration.Cache.ServiceConfigurationCache();
-
+                ServiceConfigurationCache = new BusinessLogic.Configuration.Cache.ServiceConfigurationCache();
+                ServiceConfigurationCache.Initialise();
 
 
             }
             catch (Exception Exc)
             {
-
+                throw (Exc);
             }
             finally
             {

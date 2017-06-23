@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 #endregion
 
-namespace DM.Services.NetworkResourceMonitor.Configuration
+namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
 {
 
     ///<summary> 
@@ -15,7 +15,7 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
     ///</summary>
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
-    enum NetworkResourceType
+    public enum NetworkResourceType
     {
         Server,
         Desktop,
@@ -26,5 +26,6 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
         Microcontroller,
         Console
     }
+
 
 }

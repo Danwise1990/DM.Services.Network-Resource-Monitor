@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 #endregion
 
-namespace DM.Services.NetworkResourceMonitor.Configuration
+namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
 {
 
     ///<summary> 
@@ -16,6 +17,7 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
+    [XmlRoot("ServiceConfiguration")]
     public class ServiceConfiguration
     {
         #region Implements
@@ -28,14 +30,16 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
         #region Properties
 
-        private string Identity;
-        private bool EnableEmailAlerts;
-        private bool EnableServiceStatusReporting;
-        private Int32 MonitoringInterval;
-        [XmlElement("Resource")]
-        private List<NetworkResource> NetworkResources;
+        public string Identity;
+        public bool EnableEmailAlerts;
+        public bool EnableEventLogging;
+        public bool EnableDatabaseLogging;
+        public bool MonitorLocalMachine;
+        public Int32 MonitoringInterval;
+        [XmlElement("NetworkResource")]
+        public List<NetworkResource> NetworkResources;
         [XmlElement("SQLDatabase")]
-        private List<SQLDatabase> SQLDatabases;
+        public List<SQLDatabase> SQLDatabases;
 
         #endregion
 
@@ -84,7 +88,8 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
-    internal class NetworkResource
+    [XmlRoot("NetworkResource")]
+    public class NetworkResource
     {
 
         #region Implements
@@ -97,11 +102,12 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
         #region Properties
 
-        private string Identity;
-        private string IPAddress;
-        private NetworkResourceType Type;
-        private bool EnableEmailAlerts;
-        private bool EnableHeartbeat;
+        public string Identity;
+        public string NetworkIdentity;
+        public string IPAddress;
+        public NetworkResourceType Type;
+        public bool EnableEmailAlerts;
+        public bool EnableHeartbeat;
 
         #endregion
 
@@ -151,7 +157,8 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
-    internal class SQLDatabase
+    [XmlRoot("SQLDatabase")]
+    public class SQLDatabase
     {
 
         #region Implements
@@ -164,11 +171,15 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
         #region Properties
 
-        private string Identity;
-        private string ConnectionString;
-        private string EncryptedConnectionString;
-        private List<StoredProcedure> StoredProcedures;
-        private List<DataTable> DataTables;
+        public string Identity;
+        [XmlElement(IsNullable = true)]
+        public string ConnectionString;
+        [XmlElement(IsNullable = true)]
+        public string EncryptedConnectionString;
+        [XmlElement("StoredProcedure")]
+        public List<StoredProcedure> StoredProcedures;
+        [XmlElement("DataTable")]
+        public List<DataTable> DataTables;
 
         #endregion
 
@@ -218,7 +229,7 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
-    internal class DataTable
+    public class DataTable
     {
 
         #region Implements
@@ -231,7 +242,9 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
         #region Properties
 
-        private string Identity;
+        public string Identity;
+        public string Source;
+        public DataTableSourceType SourceType;
 
         #endregion
 
@@ -281,7 +294,7 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
-    internal class StoredProcedure
+    public class StoredProcedure
     {
 
         #region Implements
@@ -340,7 +353,6 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
     namespace Cache
     {
-
         ///<summary> 
         ///Class: Service Configuration File Class Object.
         ///</summary>
@@ -358,7 +370,8 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
             #region Properties
 
-            public ServiceConfiguration ServiceConfigurartion;
+            public ServiceConfiguration ServiceConfiguration;
+            public AssemblyBuildConfiguration BuildConfiguration;
 
             #endregion
 
@@ -394,6 +407,87 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
 
             #region Private Functions/Subroutines
 
+            ///<summary> 
+            ///Subroutine: Determines the current build configuration of the service assembly.
+            ///</summary>
+            ///<author> Dan Maul </author> <created> 21/06/2017 </created>
+            ///<remarks></remarks>
+            public void DetermineBuildConfiguration()
+            {
+                try
+                {
+#if DEBUG
+                    BuildConfiguration = AssemblyBuildConfiguration.Debug;
+#elif RELEASE
+                    BuildConfiguration = AssemblyBuildConfiguration.Release;
+#elif DEV
+                    BuildConfiguration = AssemblyBuildConfiguration.Dev;
+#elif QC
+                    BuildConfiguration = AssemblyBuildConfiguration.QC;
+#elif PRD
+                    BuildConfiguration = AssemblyBuildConfiguration.PRD;
+#else
+                    throw (new Exception("Unable to determine assembly build configuration, initialisation failed."));
+#endif
+
+                }
+                catch (Exception Exc)
+                {
+                    throw (Exc);
+                }
+                finally
+                {
+
+                }
+
+            }
+
+            ///<summary> 
+            ///Subroutine: Iterates over and initialises cached data table resources for each SQL Database configured in the service configuration.
+            ///</summary>
+            ///<author> Dan Maul </author> <created> 23/06/2017 </created>
+            ///<remarks></remarks>
+            public void LoadCachedDataTables()
+            {
+
+                try
+                {
+                    
+                }
+                catch (Exception Exc)
+                {
+                    throw (Exc);
+                }
+                finally
+                {
+
+                }
+
+            }
+
+            ///<summary> 
+            ///Subroutine: Iterates over and initialises cached data table resources for each SQL Database configured in the service configuration.
+            ///</summary>
+            ///<author> Dan Maul </author> <created> 23/06/2017 </created>
+            ///<remarks></remarks>
+            public void LoadCachedStoredProcedures()
+            {
+
+                try
+                {
+
+                }
+                catch (Exception Exc)
+                {
+                    throw (Exc);
+                }
+                finally
+                {
+
+                }
+
+            }
+
             #endregion
 
             #region Public Functions/Subroutines
@@ -410,6 +504,12 @@ namespace DM.Services.NetworkResourceMonitor.Configuration
                 try
                 {
                     // TODO: Add code to initialise the configuration cache, need to determine assembly build type to identify target config folder.
+                    DetermineBuildConfiguration();
+
+                    ServiceConfiguration = DataAccess.XML.Serialiser.DeserialiseToObject<ServiceConfiguration>(DataAccess.FileHandler.ReadFile($"{AppDomain.CurrentDomain.BaseDirectory}\\ServiceConfiguration.xml"));
+
+                    LoadCachedDataTables();
+                    LoadCachedStoredProcedures();
 
                 }
                 catch (Exception Exc)
