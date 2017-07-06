@@ -7,8 +7,8 @@
     <ProjectGuid>{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetworkResourceMonitor.Configuration</RootNamespace>
-    <AssemblyName>NetworkResourceMonitor.Configuration</AssemblyName>
+    <RootNamespace>DM.Services.NetworkResourceMonitor.Configuration</RootNamespace>
+    <AssemblyName>DM.Services.NetworkResourceMonitor.Configuration</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -67,7 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="EnterpriseObjects.cs" />
     <Compile Include="Enumerators\DataTableSourceType.cs" />
     <Compile Include="Enumerators\AssemblyBuildConfiguration.cs" />
     <Compile Include="Enumerators\NetworkResourceType.cs" />

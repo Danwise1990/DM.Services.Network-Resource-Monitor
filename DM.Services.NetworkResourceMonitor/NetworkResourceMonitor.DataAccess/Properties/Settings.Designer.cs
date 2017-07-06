@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DM.Services.NetworkResourceMonitor.GUI.Properties {
+namespace DM.Services.NetworkResourceMonitor.DataAccess.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor", "DM.Services.NetworkResourceMonitor\NetworkResourceMonitor.csproj", "{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.Business Logic", "NetworkResourceMonitor.Configuration\NetworkResourceMonitor.Business Logic.csproj", "{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.BusinessLogic", "NetworkResourceMonitor.Configuration\NetworkResourceMonitor.BusinessLogic.csproj", "{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.DataAccess", "NetworkResourceMonitor.DataAccess\NetworkResourceMonitor.DataAccess.csproj", "{67724DFB-554B-4A73-B278-EB799E13A426}"
 EndProject

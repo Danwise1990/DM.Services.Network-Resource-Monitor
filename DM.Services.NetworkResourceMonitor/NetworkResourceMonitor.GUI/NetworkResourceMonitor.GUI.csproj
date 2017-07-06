@@ -7,8 +7,8 @@
     <ProjectGuid>{AEF3FEEA-C42D-4A3C-AE6B-FC78734F7CD4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetworkResourceMonitor.GUI</RootNamespace>
-    <AssemblyName>NetworkResourceMonitor.GUI</AssemblyName>
+    <RootNamespace>DM.Services.NetworkResourceMonitor.GUI</RootNamespace>
+    <AssemblyName>DM.Services.NetworkResourceMonitor.GUI</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -95,6 +95,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -110,9 +111,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetworkResourceMonitor.Configuration\NetworkResourceMonitor.Business Logic.csproj">
+    <ProjectReference Include="..\NetworkResourceMonitor.Configuration\NetworkResourceMonitor.BusinessLogic.csproj">
       <Project>{d134ae7c-7b1b-433d-a740-22a9ff7c2b3c}</Project>
-      <Name>NetworkResourceMonitor.Business Logic</Name>
+      <Name>NetworkResourceMonitor.BusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetworkResourceMonitor.DataAccess\NetworkResourceMonitor.DataAccess.csproj">
       <Project>{67724dfb-554b-4a73-b278-eb799e13a426}</Project>

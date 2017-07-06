@@ -20,26 +20,19 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
     [XmlRoot("ServiceConfiguration")]
     public class ServiceConfiguration
     {
-        #region Implements
-
-        #endregion
-
-        #region Inherits
-
-        #endregion
 
         #region Properties
 
-        public string Identity;
-        public bool EnableEmailAlerts;
-        public bool EnableEventLogging;
-        public bool EnableDatabaseLogging;
-        public bool MonitorLocalMachine;
-        public Int32 MonitoringInterval;
+        public string InstanceID { get; set; }
+        public bool EnableEmailAlerts { get; set; }
+        public bool EnableEventLogging { get; set; }
+        public bool EnableDatabaseLogging { get; set; }
+        public bool MonitorLocalMachine { get; set; }
+        public Int32 MonitoringInterval { get; set; }
         [XmlElement("NetworkResource")]
-        public List<NetworkResource> NetworkResources;
+        public List<NetworkResource> NetworkResources { get; set; }
         [XmlElement("SQLDatabase")]
-        public List<SQLDatabase> SQLDatabases;
+        public List<SQLConnection> SQLConnections { get; set; }
 
         #endregion
 
@@ -83,103 +76,26 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
     }
 
     ///<summary> 
-    ///Class: Service Configuration File Network Resource Class Object.
-    ///</summary>
-    ///<author> Dan Maul </author> <created> 20/06/2017 </created>
-    ///<remarks></remarks>
-    [Serializable]
-    [XmlRoot("NetworkResource")]
-    public class NetworkResource
-    {
-
-        #region Implements
-
-        #endregion
-
-        #region Inherits
-
-        #endregion
-
-        #region Properties
-
-        public string Identity;
-        public string NetworkIdentity;
-        public string IPAddress;
-        public NetworkResourceType Type;
-        public bool EnableEmailAlerts;
-        public bool EnableHeartbeat;
-
-        #endregion
-
-        #region Constants
-
-        #endregion
-
-        #region Constructors
-
-        ///<summary> 
-        ///Constructor: Class constructor method.
-        ///</summary>
-        ///<author> Dan Maul </author> <created> 20/06/2017 </created>
-        ///<remarks></remarks>
-        public NetworkResource()
-        {
-
-        }
-
-        #endregion
-
-        #region Destructors
-
-        #endregion
-
-        #region Event Handlers
-
-        #endregion
-
-        #region Protected Functions/Subroutines
-
-        #endregion
-
-        #region Private Functions/Subroutines
-
-        #endregion
-
-        #region Public Functions/Subroutines
-
-        #endregion
-
-    }
-
-    ///<summary> 
     ///Class: Service Configuration File SQL Databsae Connection Class Object.
     ///</summary>
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
-    [XmlRoot("SQLDatabase")]
-    public class SQLDatabase
+    [XmlRoot("SQLConnection")]
+    public class SQLConnection
     {
-
-        #region Implements
-
-        #endregion
-
-        #region Inherits
-
-        #endregion
 
         #region Properties
 
-        public string Identity;
+        public string Identity { get; set; }
         [XmlElement(IsNullable = true)]
-        public string ConnectionString;
+        public string ConnectionString { get; set; }
         [XmlElement(IsNullable = true)]
-        public string EncryptedConnectionString;
+        public string EncryptedConnectionString { get; set; }
         [XmlElement("StoredProcedure")]
-        public List<StoredProcedure> StoredProcedures;
+        public List<StoredProcedure> StoredProcedures { get; set; }
         [XmlElement("DataTable")]
-        public List<DataTable> DataTables;
+        public List<DataTable> DataTables { get; set; }
 
         #endregion
 
@@ -194,7 +110,7 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
         ///</summary>
         ///<author> Dan Maul </author> <created> 20/06/2017 </created>
         ///<remarks></remarks>
-        public SQLDatabase()
+        public SQLConnection()
         {
 
         }
@@ -229,22 +145,15 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
+    [XmlRoot("DataTable")]
     public class DataTable
     {
 
-        #region Implements
-
-        #endregion
-
-        #region Inherits
-
-        #endregion
-
         #region Properties
 
-        public string Identity;
-        public string Source;
-        public DataTableSourceType SourceType;
+        public string Identity { get; set; }
+        public string Source { get; set; }
+        public DataTableSourceType SourceType { get; set; }
 
         #endregion
 
@@ -294,20 +203,14 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
     ///<author> Dan Maul </author> <created> 20/06/2017 </created>
     ///<remarks></remarks>
     [Serializable]
+    [XmlRoot("StoredProcedure")]
     public class StoredProcedure
     {
 
-        #region Implements
-
-        #endregion
-
-        #region Inherits
-
-        #endregion
-
         #region Properties
 
-        private string Identity;
+        public string Identity { get; set; }
+        public string Name { get; set; }
 
         #endregion
 
@@ -351,8 +254,85 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
 
     }
 
+    ///<summary> 
+    ///Class: Configuration Database Network Resource Record Class.
+    ///</summary>
+    ///<author> Dan Maul </author> <created> 06/07/2017 </created>
+    ///<remarks></remarks>
+    public class NetworkResource
+    {
+
+        #region Properties
+
+        public string ResourceID { get; set; }
+        public string Hostname { get; set; }
+        public string IPAddress { get; set; }
+        public string CredentialsID { get; set; }
+        private NetworkResourceType _ResourceType { get; set; } //Private Enum property
+        public string ResourceType
+        {
+            get
+            {
+                return _ResourceType.ToString();
+            }
+            set
+            {
+                _ResourceType = (NetworkResourceType)Enum.Parse(typeof(NetworkResourceType), value);
+            }
+        } //Public String-to-Enum property
+        public bool EnableEmailAlerts { get; set; }
+        public int Timeout { get; set; }
+        public DateTime LastMonitored { get; set; }
+        public DateTime ActiveFrom { get; set; }
+        public DateTime ActiveTo { get; set; }
+        public DateTime LastModified { get; set; }
+        public string ModifiedBy { get; set; }
+
+        #endregion
+
+        #region Constants
+
+        #endregion
+
+        #region Constructors
+
+        ///<summary> 
+        ///Constructor: Class constructor method.
+        ///</summary>
+        ///<author> Dan Maul </author> <created> 20/06/2017 </created>
+        ///<remarks></remarks>
+        public NetworkResource()
+        {
+
+        }
+
+        #endregion
+
+        #region Destructors
+
+        #endregion
+
+        #region Event Handlers
+
+        #endregion
+
+        #region Protected Functions/Subroutines
+
+        #endregion
+
+        #region Private Functions/Subroutines
+
+        #endregion
+
+        #region Public Functions/Subroutines
+
+        #endregion
+
+    }
+
     namespace Cache
     {
+
         ///<summary> 
         ///Class: Service Configuration File Class Object.
         ///</summary>
@@ -360,18 +340,12 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
         ///<remarks></remarks>
         public class ServiceConfigurationCache
         {
-            #region Implements
-
-            #endregion
-
-            #region Inherits
-
-            #endregion
 
             #region Properties
 
-            public ServiceConfiguration ServiceConfiguration;
-            public AssemblyBuildConfiguration BuildConfiguration;
+            public ServiceConfiguration ServiceConfiguration { get; set; }
+            public Dictionary<string, CachedSQLConnection> CachedSQLConnections { get; set; }
+            public AssemblyBuildConfiguration BuildConfiguration { get; set; }
 
             #endregion
 
@@ -412,7 +386,7 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
             ///</summary>
             ///<author> Dan Maul </author> <created> 21/06/2017 </created>
             ///<remarks></remarks>
-            public void DetermineBuildConfiguration()
+            private void DetermineBuildConfiguration()
             {
                 try
                 {
@@ -435,55 +409,36 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
                 {
                     throw (Exc);
                 }
-                finally
-                {
-
-                }
 
             }
 
             ///<summary> 
-            ///Subroutine: Iterates over and initialises cached data table resources for each SQL Database configured in the service configuration.
+            ///Subroutine: Caches the currently configured SQL database connections defined in the Service Configuration file.
             ///</summary>
-            ///<author> Dan Maul </author> <created> 23/06/2017 </created>
+            ///<author> Dan Maul </author> <created> 26/06/2017 </created>
             ///<remarks></remarks>
-            public void LoadCachedDataTables()
+            private void CacheSQLConnections()
             {
+
+                CachedSQLConnection NewCachedSQLConnection = null;
 
                 try
                 {
-                    
-                }
-                catch (Exception Exc)
-                {
-                    throw (Exc);
-                }
-                finally
-                {
 
-                }
+                    CachedSQLConnections = new Dictionary<string, CachedSQLConnection>();
 
-            }
-
-            ///<summary> 
-            ///Subroutine: Iterates over and initialises cached data table resources for each SQL Database configured in the service configuration.
-            ///</summary>
-            ///<author> Dan Maul </author> <created> 23/06/2017 </created>
-            ///<remarks></remarks>
-            public void LoadCachedStoredProcedures()
-            {
-
-                try
-                {
+                    foreach (var SQLConnection in ServiceConfiguration.SQLConnections)
+                    {
+                        NewCachedSQLConnection = new CachedSQLConnection(SQLConnection.Identity, SQLConnection.ConnectionString);
+                        NewCachedSQLConnection.CacheDataTables(SQLConnection.DataTables);
+                        NewCachedSQLConnection.CacheStoredProcedures(SQLConnection.StoredProcedures);
+                        CachedSQLConnections.Add(NewCachedSQLConnection.Identity, NewCachedSQLConnection);
+                    }
 
                 }
                 catch (Exception Exc)
                 {
                     throw (Exc);
-                }
-                finally
-                {
-
                 }
 
             }
@@ -506,10 +461,10 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
                     // TODO: Add code to initialise the configuration cache, need to determine assembly build type to identify target config folder.
                     DetermineBuildConfiguration();
 
-                    ServiceConfiguration = DataAccess.XML.Serialiser.DeserialiseToObject<ServiceConfiguration>(DataAccess.FileHandler.ReadFile($"{AppDomain.CurrentDomain.BaseDirectory}\\ServiceConfiguration.xml"));
+                    ServiceConfiguration = XML.Serialiser.DeserialiseToObject<ServiceConfiguration>(DataAccess.FileHandler.ReadFile($"{AppDomain.CurrentDomain.BaseDirectory}\\ServiceConfiguration.xml"));
 
-                    LoadCachedDataTables();
-                    LoadCachedStoredProcedures();
+                    CacheSQLConnections();
+
 
                 }
                 catch (Exception Exc)
@@ -526,6 +481,132 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
             #endregion
         }
 
-    }
+        ///<summary> 
+        ///Class: Cached SQL Connection Object Class, contains cached SQL Connection information to be held in the service configuration cache.
+        ///</summary>
+        ///<author> Dan Maul </author> <created> 26/06/2017 </created>
+        ///<remarks></remarks>
+        public class CachedSQLConnection
+        {
 
+            #region Properties
+
+            public string Identity { get; set; }
+            public string ConnectionString { get; set; }
+            public Dictionary<string, System.Data.DataTable> DataTables { get; set; }
+            public Dictionary<string, DataAccess.SQL.StoredProcedure> StoredProcedures { get; set; }
+
+            #endregion
+
+            #region Constants
+
+            #endregion
+
+            #region Constructors
+
+            ///<summary> 
+            ///Constructor: Class constructor method.
+            ///</summary>
+            ///<author> Dan Maul </author> <created> 26/06/2017 </created>
+            ///<remarks></remarks>
+            public CachedSQLConnection(string Identity, string ConnectionString)
+            {
+                this.Identity = Identity;
+                this.ConnectionString = ConnectionString;
+            }
+
+            #endregion
+
+            #region Destructors
+
+            #endregion
+
+            #region Event Handlers
+
+            #endregion
+
+            #region Protected Functions/Subroutines
+
+            #endregion
+
+            #region Private Functions/Subroutines
+
+            #endregion
+
+            #region Public Functions/Subroutines
+
+            ///<summary> 
+            ///Subroutine: Iterates over and initialises cached data table resources for each SQL Database configured in the service configuration.
+            ///</summary>
+            ///<author> Dan Maul </author> <created> 23/06/2017 </created>
+            ///<remarks></remarks>
+            public void CacheDataTables(List<DataTable> DataTablesToCache)
+            {
+
+                System.Data.DataTable NewDataTable = null;
+
+                try
+                {
+
+                    DataTables = new Dictionary<string, System.Data.DataTable>();
+
+                    foreach (DataTable DataTableToCache in DataTablesToCache)
+                    {
+                        using (var Database = new DataAccess.SQL.Database(ConnectionString))
+                        {
+                            switch (DataTableToCache.SourceType)
+                            {
+                                case DataTableSourceType.SQL:
+                                    NewDataTable = Database.GetRecords(DataTableToCache.Source);
+                                    break;
+                                case DataTableSourceType.StoredProcedure:
+                                    DataAccess.SQL.StoredProcedure DataSetStoredProcedure = new DataAccess.SQL.StoredProcedure(DataTableToCache.Source, ConnectionString);
+                                    NewDataTable = Database.GetRecords(DataSetStoredProcedure);
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            DataTables.Add(DataTableToCache.Identity, NewDataTable);
+                        }
+                    }
+                }
+                catch (Exception Exc)
+                {
+                    throw (Exc);
+                }
+
+            }
+
+            ///<summary> 
+            ///Subroutine: Iterates over and initialises cached data table resources for each SQL Database configured in the service configuration.
+            ///</summary>
+            ///<author> Dan Maul </author> <created> 23/06/2017 </created>
+            ///<remarks></remarks>
+            public void CacheStoredProcedures(List<StoredProcedure> StoredProceduresToCache)
+            {
+
+                DataAccess.SQL.StoredProcedure NewStoredProcedure = null;
+
+                try
+                {
+
+                    StoredProcedures = new Dictionary<string, DataAccess.SQL.StoredProcedure>();
+
+                    foreach (StoredProcedure StoredProcedureToCache in StoredProceduresToCache)
+                    {
+                        NewStoredProcedure = new DataAccess.SQL.StoredProcedure(StoredProcedureToCache.Name, ConnectionString);
+                        StoredProcedures.Add(StoredProcedureToCache.Identity, NewStoredProcedure);
+                    }
+                }
+                catch (Exception Exc)
+                {
+                    throw (Exc);
+                }
+
+            }
+
+            #endregion
+        }
+    }
 }

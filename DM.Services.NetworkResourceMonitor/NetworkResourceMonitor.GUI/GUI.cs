@@ -1,16 +1,9 @@
 ﻿#region Using
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 #endregion
 
-namespace NetworkResourceMonitor.GUI
+namespace DM.Services.NetworkResourceMonitor.GUI
 {
 
     ///<summary> 
@@ -21,17 +14,9 @@ namespace NetworkResourceMonitor.GUI
     public partial class GUI : Form
     {
 
-        #region Implements
-
-        #endregion
-
-        #region Inherits
-
-        #endregion
-
         #region Properties
 
-        private DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache;
+        private BusinessLogic.Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache { get; set; }
 
         #endregion
 
@@ -53,9 +38,8 @@ namespace NetworkResourceMonitor.GUI
             try
             {
                 // TODO: Add code here to start your service.
-                ServiceConfigurationCache = new DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration.Cache.ServiceConfigurationCache();
+                ServiceConfigurationCache = new BusinessLogic.Configuration.Cache.ServiceConfigurationCache();
                 ServiceConfigurationCache.Initialise();
-
             }
             catch (Exception Exc)
             {
@@ -75,6 +59,57 @@ namespace NetworkResourceMonitor.GUI
         #endregion
 
         #region Event Handlers
+
+        ///<summary> 
+        ///Event Handler: Manually triggers an exception, for testing database interaction and stored procedure caching.
+        ///</summary>
+        ///<author> Dan Maul </author> <created> 20/06/2017 </created>
+        ///<remarks></remarks>
+        private void btn_TriggerException_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                throw new Exception("Test Exception");
+            }
+            catch(Exception Exc)
+            {
+                using (BusinessLogic.SQL.DatabaseHandler DatabaseHandler = new BusinessLogic.SQL.DatabaseHandler(ServiceConfigurationCache))
+                {
+                    DatabaseHandler.LogApplicationException(Exc);
+                }
+            }
+        }
+
+        ///<summary> 
+        ///Event Handler: Manually trigger a loop of all cached Network Resource entries and pings each one, for testing basic resource monitoring.
+        ///</summary>
+        ///<author> Dan Maul </author> <created> 06/07/2017 </created>
+        ///<remarks></remarks>
+        private void btn_PingResources_Click(object sender, EventArgs e)
+        {
+
+            System.Net.NetworkInformation.PingReply PingReply = null;
+
+            try
+            {
+                foreach (BusinessLogic.Configuration.NetworkResource NetworkResource in BusinessLogic.SQL.DatabaseHandler.DataTableToEnterpriseObjects<BusinessLogic.Configuration.NetworkResource>(ServiceConfigurationCache.CachedSQLConnections["Configuration"].DataTables["NetworkResource"]))
+                {
+                    using (BusinessLogic.Network.NetworkResourceHandler NetworkResourceHandler = new BusinessLogic.Network.NetworkResourceHandler(NetworkResource))
+                    {
+
+                        txtbx_MonitorOutput.AppendText($"Pinging {NetworkResource.ResourceID}... ");
+
+                        PingReply = NetworkResourceHandler.PingResource();
+
+                        txtbx_MonitorOutput.AppendText($"Responded: {PingReply.RoundtripTime.ToString()}ms, Status: {PingReply.Status.ToString()} \r\n");
+                    }
+                }
+
+            } catch (Exception Exc)
+            {
+                txtbx_MonitorOutput.AppendText($"An Exception of type {Exc.GetType().ToString()} occurred when pinging configured resources: {Exc.Message} \r\n");
+            }            
+        }
 
         #endregion
 

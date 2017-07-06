@@ -31,7 +31,7 @@ namespace DM.Services.NetworkResourceMonitor
 
         #region Properties
 
-        private BusinessLogic.Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache;
+        private BusinessLogic.Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache { get; set; }
 
         #endregion
 
