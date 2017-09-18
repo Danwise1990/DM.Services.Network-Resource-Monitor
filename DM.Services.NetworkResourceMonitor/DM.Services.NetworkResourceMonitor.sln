@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor", "DM.Services.NetworkResourceMonitor\NetworkResourceMonitor.csproj", "{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.BusinessLogic", "NetworkResourceMonitor.Configuration\NetworkResourceMonitor.BusinessLogic.csproj", "{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.DataAccess", "NetworkResourceMonitor.DataAccess\NetworkResourceMonitor.DataAccess.csproj", "{67724DFB-554B-4A73-B278-EB799E13A426}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.GUI", "NetworkResourceMonitor.GUI\NetworkResourceMonitor.GUI.csproj", "{AEF3FEEA-C42D-4A3C-AE6B-FC78734F7CD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkResourceMonitor.WebApplication", "NetworkResourceMonitor.WebApplication\NetworkResourceMonitor.WebApplication.csproj", "{3907E643-119D-4FBE-A81C-CF2F598DCD9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,16 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.Dev|Any CPU.ActiveCfg = Dev|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.Dev|Any CPU.Build.0 = Dev|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.PRD|Any CPU.ActiveCfg = PRD|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.PRD|Any CPU.Build.0 = PRD|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.QC|Any CPU.ActiveCfg = QC|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.QC|Any CPU.Build.0 = QC|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E86FA7FB-B46F-40C5-AA03-F59B13BEE109}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D134AE7C-7B1B-433D-A740-22A9FF7C2B3C}.Dev|Any CPU.ActiveCfg = Dev|Any CPU
@@ -60,8 +50,21 @@ Global
 		{AEF3FEEA-C42D-4A3C-AE6B-FC78734F7CD4}.QC|Any CPU.Build.0 = QC|Any CPU
 		{AEF3FEEA-C42D-4A3C-AE6B-FC78734F7CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEF3FEEA-C42D-4A3C-AE6B-FC78734F7CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.Dev|Any CPU.Build.0 = Debug|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.PRD|Any CPU.ActiveCfg = Release|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.PRD|Any CPU.Build.0 = Release|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.QC|Any CPU.ActiveCfg = Release|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.QC|Any CPU.Build.0 = Release|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3907E643-119D-4FBE-A81C-CF2F598DCD9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02DD77DF-24FA-45CA-A090-18AEA0A7E7C5}
 	EndGlobalSection
 EndGlobal

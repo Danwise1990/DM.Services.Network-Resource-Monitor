@@ -1,0 +1,76 @@
+﻿@model NetworkResourceMonitor.WebApplication.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm("Validate_User", "Login", FormMethod.Post, new { id = "form-login-validate_user" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="row justify-content-center">
+        <br />
+        <div class="col-6">
+            <br />
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card text-center">
+                        <br />
+                        <img class="card-img-top col-6 mx-auto" src="~/Content/Images/utilities-system-monitor-icon.png" alt="Network Resource Monitor">
+                        <div class="card-body">
+                            <p class="card-text text-center">Please login to view statistics on devices in the network.</p>
+                            @if (TempData.ContainsKey("Exception"))
+                            {
+                                if (!(String.IsNullOrEmpty(TempData["Exception"].ToString())))
+                                {
+                                    <br />
+                                    @Html.Partial(TempData["Exception"].ToString())
+                                }
+                            }
+                            <br />
+                            <input style="display:none">
+                            <input type="password" style="display:none">
+                            <div Class="form-row justify-content-center">
+                                <div Class="form-group">
+                                    <div Class="input-group">
+                                        <span Class="input-group-addon"><i class="fa fa-user"></i></span>
+                                        @Html.TextBoxFor(model => model.Username, new
+                                   {
+                                       @class = "form-control",
+                                       placeholder = "Username",
+                                       autocomplete = "off"
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            <div Class="form-row justify-content-center">
+                                <div Class="form-group">
+                                    <div Class="input-group">
+                                        <span Class="input-group-addon"><i class="fa fa-key"></i></span>
+                                        @Html.TextBoxFor(model => model.Password, new
+                                   {
+                                       @class = "form-control",
+                                       placeholder = "Password",
+                                       autocomplete = "off",
+                                       type = "password"
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div Class="row justify-content-center" id="div-row-login">
+                                <button id="btn-validate_user" type="submit" Class="btn btn-primary col-4" value="Validate_User" disabled>
+                                    <i Class="fa fa-lock" style="margin-right: 10px;"></i>Login
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/Login")
+}

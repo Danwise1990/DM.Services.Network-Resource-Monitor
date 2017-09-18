@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Resource Monitor - @ViewBag.Title</title>
+    @Styles.Render("~/Styles/Bootstrap")
+    @Styles.Render("~/Styles/Fontawesome")
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Network Resourece Monitor</a>
+        @RenderSection("NavbarContent", required: false)
+    </nav>
+    <div class="container body-content">
+        @RenderBody()        
+    </div>
+    <footer>
+        <div>
+            <nav class="navbar navbar-dark bg-primary fixed-bottom">
+                <span class="badge badge-default label-application-information">@DateTime.Now.Year - Network Resource Monitor - Dan Maul&copy;</span>
+                <span Class="badge badge-danger">@*Application will be undergoing maintenance on 24/11/2015 and will be unavailable between 17:00 and 18:00.*@</span>
+                <span Class="badge badge-pill badge-default navbar-right" style="cursor: pointer;"></span>
+            </nav>
+        </div>
+        @Scripts.Render("~/Scripts/JQuery")
+        @Scripts.Render("~/Scripts/JQueryValidate")
+        @Scripts.Render("~/Scripts/Bootstrap")
+        @Scripts.Render("~/Scripts/Extensions")
+        @Scripts.Render("~/Scripts/Common")
+        @RenderSection("Scripts", required: false)
+        <script type="text/javascript">
+            if (moment().date() === 11 && moment().month() === 10) {
+                $(".navbar-badge").html("<i class='fa fa-birthday-cake'></i>");
+                $(".navbar-badge").popover({
+                    content: "Happy Birthday Dan!",
+                    html: true,
+                    trigger: "click",
+                    placement: "left"
+                });
+            }
+        </script>
+    </footer>
+</body>
+</html>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration.Cache;
 #endregion
 
 namespace DM.Services.NetworkResourceMonitor
@@ -74,9 +75,7 @@ namespace DM.Services.NetworkResourceMonitor
             try
             {
                 // TODO: Add code here to start your service.
-                ServiceConfigurationCache = new BusinessLogic.Configuration.Cache.ServiceConfigurationCache();
-                ServiceConfigurationCache.Initialise();
-
+                ServiceConfigurationCache.Session.Initialise();
 
             }
             catch (Exception Exc)

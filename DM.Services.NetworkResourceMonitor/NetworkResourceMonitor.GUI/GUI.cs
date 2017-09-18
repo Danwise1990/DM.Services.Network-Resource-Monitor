@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Windows.Forms;
+using DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration.Cache;
 #endregion
 
 namespace DM.Services.NetworkResourceMonitor.GUI
@@ -15,8 +16,6 @@ namespace DM.Services.NetworkResourceMonitor.GUI
     {
 
         #region Properties
-
-        private BusinessLogic.Configuration.Cache.ServiceConfigurationCache ServiceConfigurationCache { get; set; }
 
         #endregion
 
@@ -37,9 +36,8 @@ namespace DM.Services.NetworkResourceMonitor.GUI
 
             try
             {
-                // TODO: Add code here to start your service.
-                ServiceConfigurationCache = new BusinessLogic.Configuration.Cache.ServiceConfigurationCache();
-                ServiceConfigurationCache.Initialise();
+                // TODO: Add code here to start your service.                
+                ServiceConfigurationCache.Session.Initialise();
             }
             catch (Exception Exc)
             {
@@ -73,7 +71,7 @@ namespace DM.Services.NetworkResourceMonitor.GUI
             }
             catch(Exception Exc)
             {
-                using (BusinessLogic.SQL.DatabaseHandler DatabaseHandler = new BusinessLogic.SQL.DatabaseHandler(ServiceConfigurationCache))
+                using (BusinessLogic.SQL.DatabaseHandler DatabaseHandler = new BusinessLogic.SQL.DatabaseHandler(ServiceConfigurationCache.Session))
                 {
                     DatabaseHandler.LogApplicationException(Exc);
                 }
@@ -92,7 +90,7 @@ namespace DM.Services.NetworkResourceMonitor.GUI
 
             try
             {
-                foreach (BusinessLogic.Configuration.NetworkResource NetworkResource in BusinessLogic.SQL.DatabaseHandler.DataTableToEnterpriseObjects<BusinessLogic.Configuration.NetworkResource>(ServiceConfigurationCache.CachedSQLConnections["Configuration"].DataTables["NetworkResource"]))
+                foreach (BusinessLogic.Configuration.NetworkResource NetworkResource in BusinessLogic.SQL.DatabaseHandler.DataTableToEnterpriseObjects<BusinessLogic.Configuration.NetworkResource>(ServiceConfigurationCache.Session.CachedSQLConnections["Configuration"].DataTables["NetworkResource"]))
                 {
                     using (BusinessLogic.Network.NetworkResourceHandler NetworkResourceHandler = new BusinessLogic.Network.NetworkResourceHandler(NetworkResource))
                     {

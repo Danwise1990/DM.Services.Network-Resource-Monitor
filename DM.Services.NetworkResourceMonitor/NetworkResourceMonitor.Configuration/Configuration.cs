@@ -343,6 +343,18 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
 
             #region Properties
 
+            private static ServiceConfigurationCache _Session { get; set; }
+            public static ServiceConfigurationCache Session
+            {
+                get
+                {
+                    if (_Session == null)
+                    {
+                        _Session = new ServiceConfigurationCache();
+                    }
+                    return _Session;
+                }
+            }
             public ServiceConfiguration ServiceConfiguration { get; set; }
             public Dictionary<string, CachedSQLConnection> CachedSQLConnections { get; set; }
             public AssemblyBuildConfiguration BuildConfiguration { get; set; }
@@ -356,14 +368,12 @@ namespace DM.Services.NetworkResourceMonitor.BusinessLogic.Configuration
             #region Constructors
 
             ///<summary> 
-            ///Constructor: Class constructor method.
+            ///Constructor: Private class constructor method, used by the singleton pattern to instantiate a new instance of the class if the private static
+            ///property hasn't been set.
             ///</summary>
             ///<author> Dan Maul </author> <created> 20/06/2017 </created>
             ///<remarks></remarks>
-            public ServiceConfigurationCache()
-            {
-
-            }
+            private ServiceConfigurationCache() {}
 
             #endregion
 
